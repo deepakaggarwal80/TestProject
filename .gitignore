@@ -12,7 +12,8 @@
 
 # Test output files
 /test-output/*.*
-/screenshots/*.*  
+/screenshots/*.*
+target/
 
 # Package Files #
 *.jar

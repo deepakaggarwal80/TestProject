@@ -11,8 +11,8 @@
 .mtj.tmp/
 
 # Test output files
-/test-output/*.*
-/screenshots/*.*
+test-output/
+screenshots/
 target/
 
 # Package Files #

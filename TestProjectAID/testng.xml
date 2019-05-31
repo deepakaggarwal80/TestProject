@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite thread-count="1" name="Suite" parallel="classes">
+	<listeners>
+		<!-- <listener class-name="com.company.util.WebEventListener" /> -->
+		<!-- <listener class-name="com.company.listeners.ExtentReportListener" /> -->
+		<!-- <listener class-name="com.company.listeners.ExtentTestNGListener" /> -->
+		<!-- <listener class-name="com.company.util.ReRunFailedListener" /> -->
+	</listeners>
+	<test name="Test">
+		<classes>
+			<class name="com.company.testcase.LoginPageTest" />
+			<class name="com.company.testcase.LoginPageTest1" />
+		</classes>
+	</test> <!-- Test -->
+</suite> <!-- Suite -->

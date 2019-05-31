@@ -39,8 +39,7 @@ public class TestBase {
 	public TestBase() { 
 		try {
 			prop=new Properties();
-			FileInputStream ip = new FileInputStream("C:\\Users\\Deepak\\eclipse-workspace\\"
-					+ "TestProjectAID\\src\\main\\java\\com\\company\\config\\config.properties");
+			FileInputStream ip = new FileInputStream(System.getProperty("user.dir")+ "\\src\\main\\java\\com\\company\\config\\config.properties");
 			prop.load(ip);
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
@@ -57,7 +56,7 @@ public class TestBase {
 			options.setHeadless(false);
 //			WebDriverManager.chromedriver().version("74.0.3729.6").setup();
 			if (gridEnabled.equalsIgnoreCase("false")) {
-			System.setProperty("webdriver.chrome.driver", "C:\\DProject\\Downlaods\\chromedriver\\chromedriver.exe");
+			System.setProperty("webdriver.chrome.driver", "\\DProject\\Downlaods\\chromedriver\\chromedriver.exe");
 			driver = new ChromeDriver(options);
 			}
 			else if (gridEnabled.equalsIgnoreCase("true")) {

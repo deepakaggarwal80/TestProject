@@ -35,7 +35,7 @@
 				<configuration>
 					<!-- <argLine>-DpackageName=${packageName} -DtestngFile=${testngFile} 
 							-DenableGrid=${enableGrid} -DtestName=${testName}</argLine> -->
-<!-- 					<argLine> -Durl=${url} -Dbrowser=${browser} -DisFullPageScreenshot=${isFullPageScreenshot} -DisGridEnabled=${isGridEnabled} -DtestngFile=${testngFile}</argLine> -->
+					<argLine> -Durl=${url} -Dbrowser=${browser} -DisFullPageScreenshot=${isFullPageScreenshot} -DisGridEnabled=${isGridEnabled} -DtestngFile=${testngFile}</argLine>
 					<suiteXmlFiles>
 						<!-- <suiteXmlFile>testng.xml</suiteXmlFile> -->
 						<suiteXmlFile>${testngFile}</suiteXmlFile>

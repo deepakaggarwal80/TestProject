@@ -48,8 +48,11 @@ public class TestBase {
 		}
 	}
 	public static void initialization() throws MalformedURLException {
-		String browserName= prop.getProperty("browser");
-		String gridEnabled=prop.getProperty("isGridEnabled");
+//		String browserName= prop.getProperty("browser");
+//		String browserName= System.getProperty("browser",prop.getProperty("browser"));
+		String browserName= System.getProperty("browser");
+		
+		String gridEnabled=System.getProperty("isGridEnabled");
 		if (browserName.equalsIgnoreCase("chrome")){
 			ChromeOptions options = new ChromeOptions();
 			options.addArguments("disable-infobars");
@@ -105,7 +108,8 @@ public class TestBase {
 		driver.manage().timeouts().pageLoadTimeout(TestUtil.PAGE_LOAD_TIMEOUT, TimeUnit.SECONDS);
 		driver.manage().timeouts().implicitlyWait(TestUtil.IMPLICIT_WAIT, TimeUnit.SECONDS);
 		
-		driver.get(prop.getProperty("url"));
+//		driver.get(prop.getProperty("url"));
+		driver.get(System.getProperty("url"));
 		
 	}
 }

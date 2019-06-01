@@ -57,7 +57,8 @@ public class TestUtil extends TestBase{
 
 	public static String takeScreenShot() throws IOException{
 		String path;
-		String isFullPageScreenshot= prop.getProperty("isFullPageScreenshot");
+//		String isFullPageScreenshot= System.getProperty("project.isFullPageScreenshot",prop.getProperty("isFullPageScreenshot"));
+		String isFullPageScreenshot= System.getProperty("isFullPageScreenshot");
 		String currentDir =System.getProperty("user.dir");
 		if (isFullPageScreenshot.equalsIgnoreCase("true")) {
 			Screenshot fpScreenshot = new AShot().shootingStrategy(ShootingStrategies.viewportPasting(1000)).takeScreenshot(driver);

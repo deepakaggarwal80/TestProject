@@ -7,7 +7,7 @@ import org.apache.logging.log4j.Logger;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
-//import org.testng.annotations.Listeners;
+import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 //import org.testng.log4testng.Logger; //for test ng
 

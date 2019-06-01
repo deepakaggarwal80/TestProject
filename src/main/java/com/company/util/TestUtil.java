@@ -62,11 +62,11 @@ public class TestUtil extends TestBase{
 //		String currentDir =System.getProperty("user.dir");
 		if (isFullPageScreenshot.equalsIgnoreCase("true")) {
 			Screenshot fpScreenshot = new AShot().shootingStrategy(ShootingStrategies.viewportPasting(1000)).takeScreenshot(driver);
-			path="/screenshots/"+"FP_"+System.currentTimeMillis()+".png";
+			path="/test-output/screenshots/"+"FP_"+System.currentTimeMillis()+".png";
 			ImageIO.write(fpScreenshot.getImage(),"PNG",new File(path));
 		} else {
 			File scrFile=((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
-			path = "/screenshots/"+System.currentTimeMillis()+".png";
+			path = "/test-output/screenshots/"+System.currentTimeMillis()+".png";
 			FileUtils.copyFile(scrFile, new File(path));
 		}
 		return path;

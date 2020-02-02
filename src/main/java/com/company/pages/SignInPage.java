@@ -1,7 +1,18 @@
 package com.company.pages;
 
-import com.company.base.TestBase;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
 
-public class HomePage extends TestBase{
-
+public class SignInPage extends CommonPage{
+	@FindBy(xpath="//input[@type='email']")
+	public WebElement signIn;
+	
+	public SignInPage() {
+		PageFactory.initElements(getDriver(), this);
+	}
+	
+	public void enterUserName() {
+		sendText(signIn, "deepakaggarwal@gmail.com");
+	}
 }

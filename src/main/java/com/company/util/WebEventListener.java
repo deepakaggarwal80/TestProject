@@ -9,7 +9,6 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.events.WebDriverEventListener;
 
 import com.company.base.TestBase;
-import com.company.util.*;
 
 public class WebEventListener extends TestBase implements WebDriverEventListener{
 
@@ -83,7 +82,7 @@ public class WebEventListener extends TestBase implements WebDriverEventListener
 	}
 
 	public void beforeClickOn(WebElement element, WebDriver driver) {
-		System.out.println("Trying to click on: "+element.toString());
+//		System.out.println("Trying to click on: "+element.toString());
 		
 	}
 

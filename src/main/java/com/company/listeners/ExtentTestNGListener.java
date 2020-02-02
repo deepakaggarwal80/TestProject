@@ -25,7 +25,7 @@ public class ExtentTestNGListener implements IReporter {
     private static final String OUTPUT_FOLDER = "test-output/";
     private static final String FILE_NAME = "Extent.html";
     
-    private ExtentReports extent;
+    private ExtentReports extentReports;
 
     public  void generateReport(List<XmlSuite> xmlSuites, List<ISuite> suites, String outputDirectory) {
         init();
@@ -44,43 +44,44 @@ public class ExtentTestNGListener implements IReporter {
         }
         
         for (String s : Reporter.getOutput()) {
-            extent.setTestRunnerOutput(s);
+            extentReports.setTestRunnerOutput(s);
         }
         
-        extent.flush();
+        extentReports.flush();
     }
     
     private  void init() {
         ExtentHtmlReporter htmlReporter = new ExtentHtmlReporter(OUTPUT_FOLDER + FILE_NAME);
+        htmlReporter.config().setAutoCreateRelativePathMedia(true);
         htmlReporter.config().setDocumentTitle("ExtentReports - Created by TestNG Listener");
         htmlReporter.config().setReportName("ExtentReports - Created by TestNG Listener");
 //        htmlReporter.config().setTestViewChartLocation(ChartLocation.BOTTOM);
         htmlReporter.config().setTheme(Theme.STANDARD);
         
-        extent = new ExtentReports();
-        extent.attachReporter(htmlReporter);
-        extent.setReportUsesManualConfiguration(true);
+        extentReports = new ExtentReports();
+        extentReports.attachReporter(htmlReporter);
+        extentReports.setReportUsesManualConfiguration(true);
     }
     
     private  void buildTestNodes(IResultMap tests, Status status) {
-        ExtentTest test;
+        ExtentTest extentTestLogger;
         
         if (tests.size() > 0) {
             for (ITestResult result : tests.getAllResults()) {
-                test = extent.createTest(result.getMethod().getMethodName());
+                extentTestLogger = extentReports.createTest(result.getMethod().getMethodName());
                 
                 for (String group : result.getMethod().getGroups())
-                    test.assignCategory(group);
+                    extentTestLogger.assignCategory(group);
 
                 if (result.getThrowable() != null) {
-                    test.log(status, result.getThrowable());
+                    extentTestLogger.log(status, result.getThrowable());
                 }
                 else {
-                    test.log(status, "Test " + status.toString().toLowerCase() + "ed");
+                    extentTestLogger.log(status, "Test " + status.toString().toLowerCase() + "ed");
                 }
                 
-                test.getModel().setStartTime(getTime(result.getStartMillis()));
-                test.getModel().setEndTime(getTime(result.getEndMillis()));
+                extentTestLogger.getModel().setStartTime(getTime(result.getStartMillis()));
+                extentTestLogger.getModel().setEndTime(getTime(result.getEndMillis()));
             }
         }
     }

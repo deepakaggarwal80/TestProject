@@ -228,7 +228,7 @@ public class ActionLibrary extends TestBase{
 
 	}
 
-	public void focusIframe() {
+	public void switchToframe() {
 		try {
 			WebElement iFrameElement = getDriver().findElement(By.tagName("iframe"));
 			getDriver().switchTo().frame(iFrameElement);
@@ -239,7 +239,7 @@ public class ActionLibrary extends TestBase{
 
 	}
 
-	public void focusIframe(int index) {
+	public void switchToframe(int index) {
 		try {
 			List<WebElement> frames = getDriver().findElements(By.tagName("iframe"));
 			getDriver().switchTo().frame(index);
@@ -251,7 +251,7 @@ public class ActionLibrary extends TestBase{
 
 	}
 
-	public void focusIframe(WebElement webElement) {
+	public void switchToframe(WebElement webElement) {
 		try {
 			if (webElement == null) {
 				testLog(false,"focusIframe: Failed to change focus to iframe");
@@ -266,7 +266,7 @@ public class ActionLibrary extends TestBase{
 
 	}
 
-	public void focusMainWindow() {
+	public void switchToMainWindow() {
 		try {
 			getDriver().switchTo().window(parentWindowHandle);
 			testLog("Changed focus to the Main browser window");
@@ -276,7 +276,7 @@ public class ActionLibrary extends TestBase{
 
 	}
 
-	public void focusNewWindow() {
+	public void switchToNewWindow() {
 		try {
 			parentWindowHandle = getDriver().getWindowHandle();
 			if (getDriver().getWindowHandles().size() > 1) {
@@ -298,7 +298,7 @@ public class ActionLibrary extends TestBase{
 		}
 
 	}
-	public void focusOutOfIFrame() {
+	public void switchOutOfframe() {
 		try {
 			getDriver().switchTo().defaultContent();
 			testLog(true, "Changing focus out of iFrame.");
@@ -684,7 +684,7 @@ public class ActionLibrary extends TestBase{
 
 	public void jsClick(WebElement webElement) {
 		try {
-			testLog(true, "JS Clicking Locator: " + getLocatorValue(webElement));
+			testLog(true, "Clicking Locator: " + getLocatorValue(webElement));
 			((JavascriptExecutor) getDriver()).executeScript("arguments[0].click();", webElement);
 		} catch (Exception e) {
 			testLog(false,e.getStackTrace().toString());
@@ -825,9 +825,10 @@ public class ActionLibrary extends TestBase{
 
 		try {
 			this.highlightElement(webElement);
-			webElement.sendKeys(text);
 			testLog(true, "Input value: " + text+ ". Locator: "+ getLocatorValue(webElement));
+			webElement.sendKeys(text);
 		} catch (Exception e) {
+			e.printStackTrace();
 			testLog(false,e.getStackTrace().toString());
 		}
 

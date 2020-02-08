@@ -26,6 +26,7 @@ import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.events.EventFiringWebDriver;
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
 import org.testng.asserts.SoftAssert;
 
@@ -47,14 +48,20 @@ public class TestBase {
 	
 	public static String locValue;
 	public static Field[] fields;
-	public static SoftAssert softAssert = new SoftAssert();
+	public static ThreadLocal<SoftAssert> softAssert = new ThreadLocal<>();
+//	public static SoftAssert softAssert = new SoftAssert();
 	public static Properties prop;
 	
 	public static WebDriver getDriver() {
 		return ltDriver.get();
+//		return driver;
 	}
 
-	public static void initialization() throws MalformedURLException {
+	
+//	public static void setDriver(WebDriver webDriver) {
+//		driver = webDriver;
+//	}
+	public static void initialization(){
 		try {
 			prop=new Properties();
 			FileInputStream ip = new FileInputStream(System.getProperty("user.dir")+ "\\src\\main\\java\\com\\company\\config\\config.properties");
@@ -89,7 +96,12 @@ public class TestBase {
 
 				String hubURL="http://192.168.1.105:4444/wd/hub";
 				//				String hubURL="http://192.168.99.100:4444/wd/hub";
-				driver = new RemoteWebDriver(new URL(hubURL), options);
+				try {
+					driver = new RemoteWebDriver(new URL(hubURL), options);
+				} catch (MalformedURLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 
 			}
 		}
@@ -119,15 +131,15 @@ public class TestBase {
 //		eventListener= new WebEventListener();
 //		e_driver.register(eventListener);
 //		driver=e_driver;
-
-		driver.manage().window().maximize();
-		driver.manage().deleteAllCookies();
-		driver.manage().timeouts().pageLoadTimeout(TestUtil.PAGE_LOAD_TIMEOUT, TimeUnit.SECONDS);
-		driver.manage().timeouts().implicitlyWait(TestUtil.IMPLICIT_WAIT, TimeUnit.SECONDS);
+		
 		ltDriver.set(driver);
+		getDriver().manage().window().maximize();
+		getDriver().manage().deleteAllCookies();
+		getDriver().manage().timeouts().pageLoadTimeout(TestUtil.PAGE_LOAD_TIMEOUT, TimeUnit.SECONDS);
+		getDriver().manage().timeouts().implicitlyWait(TestUtil.IMPLICIT_WAIT, TimeUnit.SECONDS);
 //		cacheObjRepository();
 //		setDriver(driver);
-		driver.get(prop.getProperty("url"));
+		getDriver().get(prop.getProperty("url"));
 		//		driver.get(System.getProperty("url"));
 
 	}
@@ -153,11 +165,9 @@ public class TestBase {
 			try {
 				ETLog.get().fail("<a class=\"image-link\" href=" + TestUtil.takeScreenShot() +">Screenshot</a><br>" + message);
 				assertTrue(status,message);
-//				ETLog.get().addScreenCaptureFromPath(TestUtil.takeScreenShot());
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-//			assertTrue(status);
 		}
 	}
 	
@@ -180,7 +190,7 @@ public class TestBase {
 			try {
 				ETLog.get().fail("<a class=\"image-link\" href=" + TestUtil.takeScreenShot() +">Screenshot</a><br>" + message);
 //				ETLog.get().addScreenCaptureFromPath(TestUtil.takeScreenShot());
-				softAssert.assertTrue(status);
+				softAssert.get().assertTrue(status);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -266,12 +276,7 @@ public class TestBase {
 
 	@BeforeClass
 	public void setUp() {
-		try {
-			initialization();
-		} catch (MalformedURLException e) {
-			e.printStackTrace();
-		}
-
+		initialization();
 	}
 
 

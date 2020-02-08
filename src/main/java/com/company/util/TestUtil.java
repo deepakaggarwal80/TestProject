@@ -72,8 +72,8 @@ public class TestUtil extends ActionLibrary{
 		return path;
 	}
 
-	public void switchToFrame() {
-		getDriver().switchTo().frame("abc");
-	}
+//	public void switchToFrame() {
+//		getDriver().switchTo().frame("abc");
+//	}
 
 }

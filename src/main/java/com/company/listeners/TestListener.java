@@ -3,6 +3,7 @@ package com.company.listeners;
 import org.testng.ITestContext;
 import org.testng.ITestListener;
 import org.testng.ITestResult;
+import org.testng.asserts.SoftAssert;
 
 import com.aventstack.extentreports.ExtentReports;
 import com.aventstack.extentreports.ExtentTest;
@@ -21,18 +22,15 @@ public class TestListener extends TestBase implements ITestListener{
 	public static ThreadLocal<ExtentTest> ETLogger= new ThreadLocal<ExtentTest>();
 	
 	public void onTestStart(ITestResult result) {
-//		testLog("on test method " +  getTestMethodName(result) + " start");
 		ExtentTest test = extent.createTest(getTestMethodName(result));
 		ETLogger.set(test);
 		setETLog(ETLogger);
+		softAssert.set(new SoftAssert() );
 		ETLogger.get().info("Starting test method " +  getTestMethodName(result));
 	}
 
 	public void onTestSuccess(ITestResult result) {
-//		 System.out.println("on test method " + getTestMethodName(result) + " success");
-//		 Markup m =MarkupHelper.createLabel("Test case Passed: "+ getTestMethodName(result), ExtentColor.GREEN);
-//		 ETLogger.get().pass(m);
-		softAssert.assertAll();
+		softAssert.get().assertAll();
 
 	}
 
@@ -69,7 +67,6 @@ public class TestListener extends TestBase implements ITestListener{
 //		  System.out.println("on finish of test " + context.getName());
 		  if (extent !=null)
 			  extent.flush();
-
 	}
 
 	private static String getTestMethodName(ITestResult result) {

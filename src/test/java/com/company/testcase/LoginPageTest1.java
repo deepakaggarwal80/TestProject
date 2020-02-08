@@ -19,7 +19,7 @@ public class LoginPageTest1 extends VerificationLibrary{
 		testLog("Deepak Aggarwal");
 		loginPage.validateHomePageTitle();
 		verifyPageTitle("Google");
-		verifyElementPresentOnPage(loginPage.submit);
+		verifyElementIsDisplayed(loginPage.submit);
 	}
 
 	@AfterClass

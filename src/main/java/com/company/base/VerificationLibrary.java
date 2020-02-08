@@ -21,11 +21,11 @@ public void verifyAttributeValue(WebElement webElement, int index, String attrib
 			actualValue = (getIndexedWebElement(webElement, index)).getAttribute(attributeName)
 					.trim();
 			if (actualValue.equals(expectedValue)) {
-				testLog(true,"verifyAttributeValue: The value in the attribute equals the expected value. Element-> "
+				testLog(true,getCurrentMethodName() + "The value in the attribute equals the expected value. Locator: "
 								+ getLocatorValue(webElement) + ", index: " + index + ", attribute name: " + attributeName
 								+ ", attribute value: " + actualValue);
 			} else {
-				testLogAndContinue(false,"verifyAttributeValue: The value in the attribute does not equal the expected value. Element-> "
+				testLogAndContinue(false,getCurrentMethodName() + "The value in the attribute does not equal the expected value. Locator: "
 						+ getLocatorValue(webElement) + ", index: " + index + ", attribute name: " + attributeName
 								+ ", expected value: " + expectedValue + ", actual value: " + actualValue);
 			}
@@ -42,11 +42,11 @@ public void verifyAttributeValue(WebElement webElement, int index, String attrib
 			this.highlightElement(webElement);
 			actualValue = webElement.getAttribute(attributeName);
 			if (actualValue.equals(expectedValue)) {
-				testLog(true,"verifyAttributeValue: The value in the attribute equals the expected value. Element-> "
+				testLog(true,getCurrentMethodName() + "The value in the attribute equals the expected value. Locator: "
 						+ getLocatorValue(webElement) + ", attribute name: " + attributeName
 								+ ", attribute value: " + actualValue);
 			} else {
-				testLogAndContinue(false,"verifyAttributeValue: The value in the attribute does not equal the expected value. Element-> "
+				testLogAndContinue(false,getCurrentMethodName() + "The value in the attribute does not equal the expected value. Locator: "
 								 + ", attribute name: " + attributeName + ", expected value: "
 								+ expectedValue + ", actual value: " + actualValue);
 			}
@@ -64,11 +64,11 @@ public void verifyAttributeValue(WebElement webElement, int index, String attrib
 			this.highlightElement(element);
 			actualValue = element.getAttribute(attributeName).trim();
 			if (actualValue.contains(expectedValue)) {
-				testLog(true,"verifyAttributeValue: The value in the attribute contains the expected text. Element-> "
+				testLog(true,getCurrentMethodName() + "The value in the attribute contains the expected text. Locator: "
 						+ getLocatorValue(webElement) + ", attribute name: " + attributeName
 								+ ", attribute value: " + actualValue);
 			} else {
-				testLogAndContinue(false,"verifyAttributeValue: The value in the attribute does not contain the expected text. Element-> "
+				testLogAndContinue(false,getCurrentMethodName() + "The value in the attribute does not contain the expected text. Locator: "
 						+ getLocatorValue(webElement) + ", attribute name: " + attributeName + ", expected value: "
 								+ expectedValue + ", actual value: " + actualValue);
 			}
@@ -85,11 +85,11 @@ public void verifyAttributeValue(WebElement webElement, int index, String attrib
 			this.highlightElement(webElement);
 			actualValue = webElement.getAttribute(attributeName);
 			if (actualValue.contains(expectedValue)) {
-				testLog(true,"verifyAttributeValue: The value in the attribute contains the expected text. Element-> "
+				testLog(true,getCurrentMethodName() + "The value in the attribute contains the expected text. Locator: "
 						+ getLocatorValue(webElement) + ", attribute name: " + attributeName
 								+ ", attribute value: " + actualValue);
 			} else {
-				testLogAndContinue(false,"verifyAttributeValue: The value in the attribute does not contain the expected text. Element-> "
+				testLogAndContinue(false,getCurrentMethodName() + "The value in the attribute does not contain the expected text. Locator: "
 						+ getLocatorValue(webElement) + ", attribute name: " + attributeName + ", expected value: "
 								+ expectedValue + ", actual value: " + actualValue);
 			}
@@ -103,9 +103,9 @@ public void verifyAttributeValue(WebElement webElement, int index, String attrib
 		try {
 			this.highlightElement(webElement);
 			if (webElement.isSelected()) {
-				testLog(true,"verifyCheckboxIsChecked: The checkbox is checked. Element-> " + getLocatorValue(webElement));
+				testLog(true,getCurrentMethodName() + "The checkbox is checked. Locator: " + getLocatorValue(webElement));
 			} else {
-				testLogAndContinue(false,"verifyCheckboxIsChecked: The checkbox is NOT checked. Element-> " + getLocatorValue(webElement) );
+				testLogAndContinue(false,getCurrentMethodName() + "The checkbox is NOT checked. Locator: " + getLocatorValue(webElement) );
 			}
 		} catch (Exception e) {
 			testLogAndContinue(false,e.getStackTrace().toString());
@@ -118,10 +118,10 @@ public void verifyAttributeValue(WebElement webElement, int index, String attrib
 			WebElement element = getIndexedWebElement(webElement, index);
 			this.highlightElement(element);
 			if (element.isSelected()) {
-				testLog(true,"verifyCheckboxIsChecked: The checkbox is checked. Element-> " 
+				testLog(true,getCurrentMethodName() + "The checkbox is checked. Locator: " 
 						+ getLocatorValue(webElement)	+ ", index: " + index);
 			} else {
-				testLogAndContinue(false,"verifyCheckboxIsChecked: The checkbox is NOT checked. Element-> " 
+				testLogAndContinue(false,getCurrentMethodName() + "The checkbox is NOT checked. Locator: " 
 						+ getLocatorValue(webElement) + ", index: " + index);
 			}
 		} catch (Exception e) {
@@ -134,9 +134,9 @@ public void verifyAttributeValue(WebElement webElement, int index, String attrib
 		try {
 			this.highlightElement(webElement);
 			if (!webElement.isSelected()) {
-				testLog(true,"verifyCheckboxIsNotChecked: The checkbox is NOT checked. Element-> "+ getLocatorValue(webElement));
+				testLog(true,getCurrentMethodName() + "The checkbox is NOT checked. Locator: "+ getLocatorValue(webElement));
 			} else {
-				testLogAndContinue(false,"verifyCheckboxIsNotChecked: The checkbox is checked. Element-> "+ getLocatorValue(webElement) );
+				testLogAndContinue(false,getCurrentMethodName() + "The checkbox is checked. Locator: "+ getLocatorValue(webElement) );
 			}
 		} catch (Exception e) {
 			testLogAndContinue(false,e.getStackTrace().toString());
@@ -150,10 +150,10 @@ public void verifyAttributeValue(WebElement webElement, int index, String attrib
 			this.highlightElement(element);
 			Boolean selectionStatus = element.isSelected();
 			if (!selectionStatus) {
-				testLog(true,"verifyCheckboxIsNotChecked: The checkbox is NOT checked. Element-> " 
+				testLog(true,getCurrentMethodName() + "The checkbox is NOT checked. Locator: " 
 						+ getLocatorValue(webElement) + ", index: " + index);
 			} else {
-				testLogAndContinue(false,"verifyCheckboxIsNotChecked: The checkbox is checked. Element-> " 
+				testLogAndContinue(false,getCurrentMethodName() + "The checkbox is checked. Locator: " 
 						+ getLocatorValue(webElement) + ", index: " + index);
 			}
 		} catch (Exception e) {
@@ -164,9 +164,9 @@ public void verifyAttributeValue(WebElement webElement, int index, String attrib
 
 	public void verifyCondition(boolean expression, String verificationDescription) {
 		if (expression) {
-			testLog(true,"verifyCondition: Passed " + verificationDescription);
+			testLog(true,getCurrentMethodName() + "Passed " + verificationDescription);
 		} else {
-			testLogAndContinue(false,"verifyCondition: Failed" + verificationDescription);
+			testLogAndContinue(false,getCurrentMethodName() + "Failed" + verificationDescription);
 		}
 
 	}
@@ -178,11 +178,11 @@ public void verifyAttributeValue(WebElement webElement, int index, String attrib
 			this.highlightElement(webElement);
 			actualValue = webElement.getCssValue(cssProp);
 			if (actualValue.equals(expectedValue)) {
-				testLog(true,"verifyCSSValue: The value in the CSS property equals the expected value. Element-> " + getLocatorValue(webElement)
+				testLog(true,getCurrentMethodName() + "The value in the CSS property equals the expected value. Locator: " + getLocatorValue(webElement)
 								 + ", CSS Property name: " + cssProp + ", attribute value: "
 								+ actualValue);
 			} else {
-				testLogAndContinue(false,"verifyCSSValue: The value in the CSS property does not equal the expected value. Element-> " + getLocatorValue(webElement)
+				testLogAndContinue(false,getCurrentMethodName() + "The value in the CSS property does not equal the expected value. Locator: " + getLocatorValue(webElement)
 								 + ", CSS Property name: " + cssProp + ", expected value: "
 								+ expectedValue + ", actual value: " + actualValue);
 			}
@@ -213,11 +213,11 @@ public void verifyAttributeValue(WebElement webElement, int index, String attrib
 			}
 
 			if (isSelected) {
-				testLog(true, "verifyDropDownSelection: '" + selectedItem
-						+ "' is selected. Element-> "+ getLocatorValue(webElement) );
+				testLog(true,getCurrentMethodName() + "'" + selectedItem
+						+ "' is selected. Locator: "+ getLocatorValue(webElement) );
 			} else {
-				testLogAndContinue(false, "verifyDropDownSelection: '"
-						+ selectedItem + "' is NOT selected. Element-> "+ getLocatorValue(webElement) );
+				testLogAndContinue(false,getCurrentMethodName() + "'"
+						+ selectedItem + "' is NOT selected. Locator: "+ getLocatorValue(webElement) );
 			}
 		} catch (Exception e) {
 			testLogAndContinue(false,e.getStackTrace().toString());
@@ -237,11 +237,11 @@ public void verifyAttributeValue(WebElement webElement, int index, String attrib
 			}
 
 			if (isSelected) {
-				testLog(true, "verifyDropDownSelection: '" + selectedItem
-						+ "' is selected. Element-> "+ getLocatorValue(webElement) );
+				testLog(true,getCurrentMethodName() + "'" + selectedItem
+						+ "' is selected. Locator: "+ getLocatorValue(webElement) );
 			} else {
-				testLogAndContinue(false, "verifyDropDownSelection: '"
-						+ selectedItem + "' is NOT selected. Element-> "+ getLocatorValue(webElement) );
+				testLogAndContinue(false,getCurrentMethodName() + "'"
+						+ selectedItem + "' is NOT selected. Locator: "+ getLocatorValue(webElement) );
 			}
 		} catch (Exception e) {
 			testLogAndContinue(false,e.getStackTrace().toString());
@@ -261,11 +261,11 @@ public void verifyAttributeValue(WebElement webElement, int index, String attrib
 			}
 
 			if (isSelected) {
-				testLog(true, "verifyDropDownSelection: '" + selectedItem
-						+ "' is selected. Element-> "+ getLocatorValue(webElement) );
+				testLog(true,getCurrentMethodName() + "'" + selectedItem
+						+ "' is selected. Locator: "+ getLocatorValue(webElement) );
 			} else {
-				testLogAndContinue(false, "verifyDropDownSelection: '"
-						+ selectedItem + "' is NOT selected. Element-> " + getLocatorValue(webElement));
+				testLogAndContinue(false,getCurrentMethodName() + "'"
+						+ selectedItem + "' is NOT selected. Locator: " + getLocatorValue(webElement));
 			}
 		} catch (Exception e) {
 			testLogAndContinue(false,e.getStackTrace().toString());
@@ -285,11 +285,11 @@ public void verifyAttributeValue(WebElement webElement, int index, String attrib
 			}
 
 			if (isSelected) {
-				testLog(true, "verifyDropDownSelection: '" + selectedItem
-						+ "' is selected. Element-> " + getLocatorValue(webElement));
+				testLog(true,getCurrentMethodName() + "'" + selectedItem
+						+ "' is selected. Locator: " + getLocatorValue(webElement));
 			} else {
-				testLogAndContinue(false, "verifyDropDownSelection: '"
-						+ selectedItem + "' is NOT selected. Element-> " + getLocatorValue(webElement));
+				testLogAndContinue(false,getCurrentMethodName() + "'"
+						+ selectedItem + "' is NOT selected. Locator: " + getLocatorValue(webElement));
 			}
 		} catch (Exception e) {
 			testLogAndContinue(false,e.getStackTrace().toString());
@@ -301,10 +301,10 @@ public void verifyAttributeValue(WebElement webElement, int index, String attrib
 
 		try {
 			if (parentWebElement.findElement((By) childWebElement) != null) {
-				testLog(true,"verifyElementAbsenceInsideParentElement: verified-> Element"+getLocatorValue(childWebElement) + "absent inside parent element"+getLocatorValue(parentWebElement)); 
+				testLog(true,getCurrentMethodName() + "Element "+getLocatorValue(childWebElement) + "absent inside parent element "+getLocatorValue(parentWebElement)); 
 			}
 			else
-			testLogAndContinue(false,"verifyElementAbsenceInsideParentElement: verified-> Element"+getLocatorValue(childWebElement) + "present inside parent element"+getLocatorValue(parentWebElement));
+			testLogAndContinue(false,getCurrentMethodName() + "Element "+getLocatorValue(childWebElement) + "present inside parent element "+getLocatorValue(parentWebElement));
 		} catch (Exception e) {
 			testLogAndContinue(false,e.getStackTrace().toString());
 		}
@@ -314,23 +314,23 @@ public void verifyAttributeValue(WebElement webElement, int index, String attrib
 	public void verifyElementPresenceInsideParentElement(WebElement parentWebElement, WebElement childWebElement) {
 		try {
 			if (parentWebElement.findElement((By) childWebElement) != null) {
-				testLogAndContinue(true,"verifyElementPresenceInsideParentElement: verified-> Element"+getLocatorValue(childWebElement) + "present inside parent element"+getLocatorValue(parentWebElement));
+				testLogAndContinue(true,getCurrentMethodName() + "Element "+getLocatorValue(childWebElement) + "present inside parent element "+getLocatorValue(parentWebElement));
 			}
 			else
-				testLog(false,"verifyElementPresenceInsideParentElement: verified-> Element"+getLocatorValue(childWebElement) + "absent inside parent element"+getLocatorValue(parentWebElement)); 
+				testLog(false,getCurrentMethodName() + "Element "+getLocatorValue(childWebElement) + "absent inside parent element "+getLocatorValue(parentWebElement)); 
 		} catch (Exception e) {
 			testLogAndContinue(false,e.getStackTrace().toString());
 		}
 	}
 
-	public void verifyElementAbsentOnPage(WebElement webElement) {
+	public void verifyElementIsNotDisplayed(WebElement webElement) {
 		try {
 			if (webElement.isDisplayed()) {
 				this.highlightElement(webElement);
-				testLogAndContinue(false,"verifyElementAbsentOnPage: Element found on the page when not expected. Element-> "
+				testLogAndContinue(false,getCurrentMethodName() + "Element found on the page when not expected. Locator: "
 						+ getLocatorValue(webElement));
 			} else {
-				testLog(true,"verifyElementAbsentOnPage: Element found in the DOM but not displayed. Element-> "
+				testLog(true,getCurrentMethodName() + "Element found in the DOM but not displayed. Locator: "
 						+ getLocatorValue(webElement));
 			}
 		} catch (Exception e) {
@@ -339,15 +339,15 @@ public void verifyAttributeValue(WebElement webElement, int index, String attrib
 
 	}
 
-	public void verifyElementAbsentOnPage(WebElement webElement, int index) {
+	public void verifyElementIsNotDisplayed(WebElement webElement, int index) {
 		try {
 			WebElement element = getIndexedWebElement(webElement, index);
 			if (element.isDisplayed()) {
 				this.highlightElement(element);
-				testLogAndContinue(false,"verifyElementAbsentOnPage: Element found on the page when not expected. Element-> "
+				testLogAndContinue(false,getCurrentMethodName() + "Element found on the page when not expected. Locator: "
 						+ getLocatorValue(webElement));
 			} else {
-				testLogAndContinue(true,"verifyElementAbsentOnPage: Element found in the DOM but not displayed. Element-> "
+				testLogAndContinue(true,getCurrentMethodName() + "Element found in the DOM but not displayed. Locator: "
 						+ getLocatorValue(webElement));
 			}
 		
@@ -360,10 +360,10 @@ public void verifyAttributeValue(WebElement webElement, int index, String attrib
 	public void verifyElementOccurenceCount(WebElement webElement, int count) {
 		try {
 			if (getElementCount(webElement)== count) {
-				testLog(true,"verifyElementOccurenceCount: Element occurrence count is correct. Element-> "
+				testLog(true,getCurrentMethodName() + "Element occurrence count is correct. Locator: "
 						+ getLocatorValue(webElement) + " Count: " + count);
 			} else {
-				testLogAndContinue(false,"verifyElementOccurenceCount: Element occurrence count is INCORRECT. Element-> "
+				testLogAndContinue(false,getCurrentMethodName() + "Element occurrence count is INCORRECT. Locator: "
 						+ getLocatorValue(webElement) + " Expected count: " + count + ", Actual count: "
 								+ getElementCount(webElement));
 			}
@@ -374,13 +374,13 @@ public void verifyAttributeValue(WebElement webElement, int index, String attrib
 	}
 
 
-	public void verifyElementPresentOnPage(WebElement webElement) {
+	public void verifyElementIsDisplayed(WebElement webElement) {
 		try {
 			if (webElement.isDisplayed()) {
 				this.highlightElement(webElement);
-				testLog(true,"verifyElementPresentOnPage: Element found. Element-> "+ getLocatorValue(webElement) );
+				testLog(true,getCurrentMethodName() + "Element found. Locator: "+ getLocatorValue(webElement) );
 			} else {
-				testLogAndContinue(false,"verifyElementPresentOnPage: Element NOT found. Element-> "+ getLocatorValue(webElement) );
+				testLogAndContinue(false,getCurrentMethodName()+"Element NOT found. Locator: "+ getLocatorValue(webElement) );
 			}
 		} catch (Exception e) {
 			testLogAndContinue(false,e.getStackTrace().toString());
@@ -388,12 +388,12 @@ public void verifyAttributeValue(WebElement webElement, int index, String attrib
 
 	}
 
-	public void verifyElementPresentOnPage(WebElement webElement, int index) {
+	public void verifyElementIsDisplayed(WebElement webElement, int index) {
 		try {
 			WebElement element = getIndexedWebElement(webElement, index);
 			if (element.isDisplayed()) {
 				this.highlightElement(element);
-				testLog(true,"verifyElementPresentOnPage: Element " + getLocatorValue(webElement));
+				testLog(true,getCurrentMethodName() + "Element found. Locator " + getLocatorValue(webElement));
 			}
 		} catch (Exception e) {
 			testLogAndContinue(false,e.getStackTrace().toString());
@@ -403,10 +403,10 @@ public void verifyAttributeValue(WebElement webElement, int index, String attrib
 
 	public void verifyEqual(double valueA, double valueB, String verificationDescription) {
 		if (valueA == valueB) {
-			testLog(true, "verifyEqual: " + verificationDescription
+			testLog(true,getCurrentMethodName() + "" + verificationDescription
 					+ ": value '" + valueA + "' is equal to value '" + valueB + "'");
 		} else {
-			testLogAndContinue(false, "verifyEqual: " + verificationDescription
+			testLogAndContinue(false,getCurrentMethodName() + "" + verificationDescription
 					+ ": value '" + valueA + "' is NOT equal to value: " + valueB + "'");
 		}
 
@@ -414,10 +414,10 @@ public void verifyAttributeValue(WebElement webElement, int index, String attrib
 
 	public void verifyEqual(int valueA, int valueB, String verificationDescription) {
 		if (valueA == valueB) {
-			testLog(true, "verifyEqual: " + verificationDescription
+			testLog(true,getCurrentMethodName() + "" + verificationDescription
 					+ ": value '" + valueA + "' is equal to value '" + valueB + "'");
 		} else {
-			testLogAndContinue(false, "verifyEqual: " + verificationDescription
+			testLogAndContinue(false,getCurrentMethodName() + "" + verificationDescription
 					+ ": value '" + valueA + "' is NOT equal to value: " + valueB + "'");
 		}
 
@@ -426,10 +426,10 @@ public void verifyAttributeValue(WebElement webElement, int index, String attrib
 
 	public void verifyGreater(int expectedGreater, int expectedLess, String verificationDescription) {
 		if (expectedGreater > expectedLess) {
-			testLog(true, "verifyGreater: " + verificationDescription
+			testLog(true,getCurrentMethodName() + "" + verificationDescription
 					+ ": value: " + expectedGreater + " is greater than value: " + expectedLess);
 		} else {
-			testLogAndContinue(false,"verifyGreater: " + verificationDescription + ": value: " + expectedGreater
+			testLogAndContinue(false,getCurrentMethodName() + "" + verificationDescription + ": value: " + expectedGreater
 							+ " is NOT greater value: " + expectedLess);
 		}
 
@@ -439,10 +439,10 @@ public void verifyAttributeValue(WebElement webElement, int index, String attrib
 	public void verifyGreaterOrEqual(int expectedGreaterOrEqual, int expectedLessOrEqual,
 			String verificationDescription) {
 		if (expectedGreaterOrEqual >= expectedLessOrEqual) {
-			testLog(true,"verifyGreaterOrEqual: " + verificationDescription + ": value '" + expectedGreaterOrEqual
+			testLog(true,getCurrentMethodName() + "" + verificationDescription + ": value '" + expectedGreaterOrEqual
 							+ "' is equal to or greater than value '" + expectedLessOrEqual + "'");
 		} else {
-			testLogAndContinue(false,"verifyGreaterOrEqual: " + verificationDescription + ": value '" + expectedGreaterOrEqual
+			testLogAndContinue(false,getCurrentMethodName() + "" + verificationDescription + ": value '" + expectedGreaterOrEqual
 							+ "' is NOT equal or greater than value '" + expectedLessOrEqual + "'");
 		}
 
@@ -455,17 +455,17 @@ public void verifyAttributeValue(WebElement webElement, int index, String attrib
 		try {
 			if (enableCaseSensitiveVerification) {
 				if (valueA.equals(valueB)) {
-					testLog(true, "verifyEqual: " + verificationDescription
+					testLog(true,getCurrentMethodName() + "" + verificationDescription
 							+ ": value '" + valueA + "' is equal to value '" + valueB + "'");
 				} else {
-					testLogAndContinue(false,"verifyIsEqual: " + verificationDescription + ": value '" + valueA
+					testLogAndContinue(false,getCurrentMethodName() + "" + verificationDescription + ": value '" + valueA
 									+ "' is NOT equal to value '" + valueB + "'");
 				}
 			} else if (valueA.equalsIgnoreCase(valueB)) {
-				testLog(true, "verifyEqual: " + verificationDescription
+				testLog(true,getCurrentMethodName() + "" + verificationDescription
 						+ ": value '" + valueA + "' is equal to value '" + valueB + "'");
 			} else {
-				testLogAndContinue(false, "verifyIsEqual: "
+				testLogAndContinue(false,getCurrentMethodName() + ""
 						+ verificationDescription + ": value '" + valueA + "' is NOT equal to value '" + valueB + "'");
 			}
 		} catch (Exception e) {
@@ -477,10 +477,10 @@ public void verifyAttributeValue(WebElement webElement, int index, String attrib
 	public void verifyIsNotEqual(int valueA, int valueB, String verificationDescription) {
 		try {
 			if (valueA != valueB) {
-				testLog(true, "verifyIsNotEqual: " + verificationDescription
+				testLog(true,getCurrentMethodName() + "" + verificationDescription
 						+ ": value '" + valueA + "' is NOT equal to value '" + valueB + "'");
 			} else {
-				testLogAndContinue(false, "verifyIsNotEqual: "
+				testLogAndContinue(false,getCurrentMethodName() + ""
 						+ verificationDescription + ": value '" + valueA + "' is equal to value '" + valueB + "'");
 			}
 		} catch (Exception e) {
@@ -494,17 +494,17 @@ public void verifyAttributeValue(WebElement webElement, int index, String attrib
 		try {
 			if (enableCaseSensitiveVerification) {
 				if (!valueA.equals(valueB)) {
-					testLog(true,"verifyIsNotEqual: " + verificationDescription + ": value '" + valueA
+					testLog(true,getCurrentMethodName() + "" + verificationDescription + ": value '" + valueA
 									+ "' is NOT equal to value '" + valueB + "'");
 				} else {
-					testLogAndContinue(false, "verifyIsNotEqual: "
+					testLogAndContinue(false,getCurrentMethodName() + ""
 							+ verificationDescription + ": value '" + valueA + "' is equal to value '" + valueB + "'");
 				}
 			} else if (!valueA.equalsIgnoreCase(valueB)) {
-				testLog(true, "verifyIsNotEqual: " + verificationDescription
+				testLog(true,getCurrentMethodName() + "" + verificationDescription
 						+ ": value '" + valueA + "' is NOT equal to value '" + valueB + "'");
 			} else {
-				testLogAndContinue(false, "verifyIsNotEqual: "
+				testLogAndContinue(false,getCurrentMethodName() + ""
 						+ verificationDescription + ": value '" + valueA + "' is equal to value '" + valueB + "'");
 			}
 		} catch (Exception e) {
@@ -530,10 +530,10 @@ public void verifyAttributeValue(WebElement webElement, int index, String attrib
 			}
 
 			if (count > 0) {
-				testLogAndContinue(false, "verifyOptionDontExistsOnDropDown: '"
+				testLogAndContinue(false,getCurrentMethodName() + "'"
 						+ item + "' does  exist in the drop-down list:-> " );
 			} else {
-				testLog(true, "verifyOptionDontExistsOnDropDown: '" + item
+				testLog(true,getCurrentMethodName() + "'" + item
 						+ "' dont exist in the drop-down list:-> " );
 			}
 		} catch (Exception e) {
@@ -559,10 +559,10 @@ public void verifyAttributeValue(WebElement webElement, int index, String attrib
 			}
 
 			if (count > 0) {
-				testLog(true, "verifyOptionExistsOnDropDown: '" + item
+				testLog(true,getCurrentMethodName() + "'" + item
 						+ "' exists in the drop-down list:-> " );
 			} else {
-				testLogAndContinue(false, "verifyOptionExistsOnDropDown: '"
+				testLogAndContinue(false,getCurrentMethodName() + "'"
 						+ item + "' does NOT exist in the drop-down list:-> " );
 			}
 		} catch (Exception e) {
@@ -575,9 +575,9 @@ public void verifyAttributeValue(WebElement webElement, int index, String attrib
 		try {
 			String actualTitle = getDriver().getTitle();
 			if (actualTitle.equalsIgnoreCase(expectedTitle)) {
-				testLog(true, "Title matches, Title = " + actualTitle);
+				testLog(true, getCurrentMethodName() + "Title matches, Title = " + actualTitle);
 			} else {
-				testLogAndContinue(false,"Title doesn't match: Expected Title = " + expectedTitle + ", Actual Title = " + actualTitle);
+				testLogAndContinue(false,getCurrentMethodName()+"Title doesn't match: Expected Title = " + expectedTitle + ", Actual Title = " + actualTitle);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -589,10 +589,10 @@ public void verifyAttributeValue(WebElement webElement, int index, String attrib
 		try {
 			this.highlightElement(webElement);
 			if (!webElement.isSelected()) {
-				testLog(true,"verifyRadioButtonIsNotSelected: The radio button is NOT selected. Element-> "
+				testLog(true,getCurrentMethodName() + "The radio button is NOT selected. Locator: "
 						+ getLocatorValue(webElement));
 			} else {
-				testLogAndContinue(false,"verifyRadioButtonIsNotSelected: The radio button is selected. Element-> "
+				testLogAndContinue(false,getCurrentMethodName() + "The radio button is selected. Locator: "
 						+ getLocatorValue(webElement));
 			}
 		} catch (Exception e) {
@@ -606,10 +606,10 @@ public void verifyAttributeValue(WebElement webElement, int index, String attrib
 			WebElement element = getIndexedWebElement(webElement, index);
 			this.highlightElement(element);
 			if (!element.isSelected()) {
-				testLog(true,"verifyRadioButtonIsNotSelected: The radio button is NOT selected. Element-> "
+				testLog(true,getCurrentMethodName() + "The radio button is NOT selected. Locator: "
 						+ getLocatorValue(webElement) + ", Index: " + index);
 			} else {
-				testLogAndContinue(false,"verifyRadioButtonIsNotSelected: The radio button isselected. Element-> "
+				testLogAndContinue(false,getCurrentMethodName() + "The radio button isselected. Locator: "
 						+ getLocatorValue(webElement) + ", Index: " + index);
 			}
 		} catch (Exception e) {
@@ -623,10 +623,10 @@ public void verifyAttributeValue(WebElement webElement, int index, String attrib
 		try {
 			this.highlightElement(webElement);
 			if (webElement.isSelected()) {
-				testLog(true,"verifyRadioButtonIsSelected: The radio button is selected. Element-> "
+				testLog(true,getCurrentMethodName() + "The radio button is selected. Locator: "
 						+ getLocatorValue(webElement));
 			} else {
-				testLogAndContinue(false,"verifyRadioButtonIsSelected: The radio button is NOT selected. Element-> "
+				testLogAndContinue(false,getCurrentMethodName() + "The radio button is NOT selected. Locator: "
 						+ getLocatorValue(webElement));
 			}
 		} catch (Exception e) {
@@ -640,10 +640,10 @@ public void verifyAttributeValue(WebElement webElement, int index, String attrib
 			WebElement element = getIndexedWebElement(webElement, index);
 			this.highlightElement(element);
 			if (element.isSelected()) {
-				testLog(true,"verifyRadioButtonIsSelected: The radio button is selected. Element-> "
+				testLog(true,getCurrentMethodName() + "The radio button is selected. Locator: "
 						+ getLocatorValue(webElement) + ", Index: " + index);
 			} else {
-				testLogAndContinue(false,"verifyRadioButtonIsSelected: The radio button is NOT selected. Element-> "
+				testLogAndContinue(false,getCurrentMethodName() + "The radio button is NOT selected. Locator: "
 						+ getLocatorValue(webElement) + ", Index: " + index);
 			}
 		} catch (Exception e) {
@@ -657,9 +657,9 @@ public void verifyAttributeValue(WebElement webElement, int index, String attrib
 		try {
 			if (actual != null && expected != null) {
 				if (actual.trim().equalsIgnoreCase(expected.trim())) {
-					testLog(true,"verifyText: The text matches the expected value. Text: " + expected);
+					testLog(true,getCurrentMethodName() + "The text matches the expected value. Text: " + expected);
 				} else {
-					testLogAndContinue(false,"verifyText: The text does NOT match the expected value. Actual: " + actual + ", Expected: "
+					testLogAndContinue(false,getCurrentMethodName() + "The text does NOT match the expected value. Actual: " + actual + ", Expected: "
 									+ expected);
 				}
 			} else {
@@ -689,7 +689,7 @@ public void verifyAttributeValue(WebElement webElement, int index, String attrib
 		try {
 			List<WebElement> elements = getDriver().findElements((By) webElement);
 			if (elements.isEmpty()) {
-				testLogAndContinue(false,"verifyTextDoesNotExistOnAnyOccurenceOfElement: The element does NOT exist on the page. Element-> "
+				testLogAndContinue(false,getCurrentMethodName() + "The element does NOT exist on the page. Locator: "
 						+ getLocatorValue(webElement));
 				return;
 			}
@@ -699,7 +699,7 @@ public void verifyAttributeValue(WebElement webElement, int index, String attrib
 					retrievedText = ((WebElement) elements.get(i)).getText().trim();
 					if (retrievedText.contains(verificationText.trim())) {
 						this.highlightElement((WebElement) elements.get(i));
-						testLogAndContinue(false,"verifyTextDoesNotExistOnAnyOccurenceOfElement: The text was found on the Element-> "
+						testLogAndContinue(false,getCurrentMethodName() + "The text was found on the Locator: "
 								+ getLocatorValue(webElement) + ", Parameter text: " + verificationText
 										+ ". Text on locator:" + retrievedText);
 						return;
@@ -710,7 +710,7 @@ public void verifyAttributeValue(WebElement webElement, int index, String attrib
 			}
 
 			if (flag) {
-				testLogAndContinue(true,"verifyTextDoesNotExistOnElement: The text was not found on the Element-> "
+				testLog(true,getCurrentMethodName() + "The text was not found on the Locator: "
 						+ getLocatorValue(webElement) + ", Parameter text:" + verificationText + ". Text on locator:"
 								+ retrievedText);
 			}
@@ -741,7 +741,7 @@ public void verifyAttributeValue(WebElement webElement, int index, String attrib
 		try {
 			List<WebElement> texts = getDriver().findElements((By) webElement);
 			if (texts.isEmpty()) {
-				testLogAndContinue(false,"verifyTextExistsOnAnyOccurenceOfElement: The element does NOT exist on the page. Element-> "
+				testLogAndContinue(false,getCurrentMethodName() + "The element does NOT exist on the page. Locator: "
 						+ getLocatorValue(webElement) + " text: " + verificationText);
 				return;
 			}
@@ -753,7 +753,7 @@ public void verifyAttributeValue(WebElement webElement, int index, String attrib
 						& ((WebElement) texts.get(i)).isDisplayed()) {
 					this.highlightElement((WebElement) texts.get(i));
 					found = true;
-					testLog(true,"verifyTextExistsOnAnyOccurenceOfElement: The text verified successfully. Element-> "
+					testLog(true,getCurrentMethodName() + "The text verified successfully. Locator: "
 							+ getLocatorValue(webElement) + " text: " + verificationText);
 					break;
 				}
@@ -761,7 +761,7 @@ public void verifyAttributeValue(WebElement webElement, int index, String attrib
 
 			if (!found) {
 				this.highlightElement((WebElement) texts.get(i));
-				testLogAndContinue(false,"verifyTextExistsOnAnyOccurenceOfElement: Text verification. Element-> "
+				testLogAndContinue(false,getCurrentMethodName() + "Text verification. Locator: "
 						+ getLocatorValue(webElement) + " Expected text: " + verificationText + ", Actual Text: "
 								+ retrievedText);
 			}
@@ -777,10 +777,10 @@ public void verifyAttributeValue(WebElement webElement, int index, String attrib
 		try {
 			String actualText = webElement.getText();
 			if (actualText.contains(verificationText)) {
-				testLogAndContinue(true,"verifyTextExistsOnElement: Element-> "  + " having text: "
+				testLog(true,getCurrentMethodName() + "Locator: "+ getLocatorValue(webElement)  + " having text: "
 								+ actualText + ", contains text:" + verificationText);
 			} else {
-				testLogAndContinue(false,"verifyTextExistsOnElement: Element-> "  + " having text: "
+				testLogAndContinue(false,getCurrentMethodName() + "Locator: "  + " having text: "
 								+ actualText + ",does not contains text:" + verificationText);
 			}
 		} catch (Exception e) {
@@ -796,11 +796,11 @@ public void verifyAttributeValue(WebElement webElement, int index, String attrib
 			String text1 = webElement.getText().trim();
 			Matcher match = pattern.matcher(text1);
 			if (match.find()) {
-				testLogAndContinue(true,"verifyTextExistsOnElementRegularExp: Text Verification passed. Element-> "
+				testLog(true,getCurrentMethodName() + "Text Verification passed. Locator: "
 						+ getLocatorValue(webElement) + ", Regular Expression: " + expectedTextExpression
 								+ ", Text: " + text1);
 			} else {
-				testLogAndContinue(false,"verifyTextExistsOnElementRegularExp: Text Verification failed. Element-> "
+				testLogAndContinue(false,getCurrentMethodName() + "Text Verification failed. Locator: "
 						+ getLocatorValue(webElement) + ", Regular Expression: " + expectedTextExpression
 								+ ", Text: " + text1);
 			}
@@ -814,9 +814,9 @@ public void verifyAttributeValue(WebElement webElement, int index, String attrib
 		try {
 			Boolean result = getDriver().getPageSource().matches(expectedText);
 			if (result) {
-				testLog(true,"verifyTextInPageSouce: Text found. Text-> " + expectedText);
+				testLog(true,getCurrentMethodName() + "Text found. Text-> " + expectedText);
 			} else {
-				testLogAndContinue(false,"verifyTextInPageSouce: Text NOT found. Text-> " + expectedText);
+				testLogAndContinue(false,getCurrentMethodName() + "Text NOT found. Text-> " + expectedText);
 			}
 		} catch (Exception e) {
 			testLogAndContinue(false,e.getStackTrace().toString());
@@ -848,7 +848,7 @@ public void verifyAttributeValue(WebElement webElement, int index, String attrib
 		try {
 			List<WebElement> elements = getDriver().findElements((By) webElement);
 			if (elements.isEmpty()) {
-				testLogAndContinue(false,"verifyTextNotOnElement: The element does NOT exist on the page. Element-> "
+				testLogAndContinue(false,getCurrentMethodName() + "The element does NOT exist on the page. Locator: "
 						+ getLocatorValue(webElement));
 				return;
 			}
@@ -858,7 +858,7 @@ public void verifyAttributeValue(WebElement webElement, int index, String attrib
 					retrievedText = ((WebElement) elements.get(i)).getText().trim();
 					if (retrievedText.equals(verificationText.trim())) {
 						this.highlightElement((WebElement) elements.get(i));
-						testLogAndContinue(false,"verifyTextNotOnElement: The text was found on the Element-> "
+						testLogAndContinue(false,getCurrentMethodName() + "The text was found on the Locator: "
 								+ getLocatorValue(webElement)+ ", Parameter text: " + verificationText
 										+ ". Text on locator:" + retrievedText);
 						return;
@@ -869,7 +869,7 @@ public void verifyAttributeValue(WebElement webElement, int index, String attrib
 			}
 
 			if (flag) {
-				testLogAndContinue(true,"verifyTextNotOnElement: The text was not found on the Element-> " 
+				testLog(true,getCurrentMethodName() + "The text was not found on the Locator: " 
 						+ getLocatorValue(webElement)+ ", Parameter text:" + verificationText + ". Text on locator:" + retrievedText);
 			}
 
@@ -891,7 +891,7 @@ public void verifyAttributeValue(WebElement webElement, int index, String attrib
 		try {
 			List<WebElement> texts = getDriver().findElements((By) webElement);
 			if (texts.isEmpty()) {
-				testLogAndContinue(false,"verifyTextOnAnyOccurenceOfElement: The element does NOT exist on the page. Element-> "
+				testLogAndContinue(false,getCurrentMethodName() + "The element does NOT exist on the page. Locator: "
 						+ getLocatorValue(webElement) + " text: " + verificationText);
 				return;
 			}
@@ -902,7 +902,7 @@ public void verifyAttributeValue(WebElement webElement, int index, String attrib
 				if (retrievedText.equalsIgnoreCase(verificationText.trim()) & ((WebElement) texts.get(i)).isDisplayed()) {
 					flag = "1";
 					this.highlightElement((WebElement) texts.get(i));
-					testLog(true,"verifyTextOnAnyOccurenceOfElement: The text verified successfully. Element-> "
+					testLog(true,getCurrentMethodName() + "The text verified successfully. Locator: "
 							+ getLocatorValue(webElement) + " text: " + verificationText);
 					break;
 				}
@@ -910,7 +910,7 @@ public void verifyAttributeValue(WebElement webElement, int index, String attrib
 
 			if (flag.contains("0")) {
 				this.highlightElement((WebElement) texts.get(i));
-				testLogAndContinue(false,"verifyTextOnAnyOccurenceOfElement: Text verification. Element-> " 
+				testLogAndContinue(false,getCurrentMethodName() + "Text verification. Locator: " 
 						+ getLocatorValue(webElement) + " Expected text: " + verificationText + ", Actual Text: " + retrievedText);
 			}
 		} catch (Exception e) {
@@ -925,10 +925,10 @@ public void verifyAttributeValue(WebElement webElement, int index, String attrib
 		try {
 			String actualText = webElement.getText();
 			if (actualText.equals(verificationText)) {
-				testLogAndContinue(true,"verifyTextOnElement: Element-> "  + " having text: " + actualText
+				testLog(true,getCurrentMethodName() + "Locator: "  + " having text: " + actualText
 								+ ", matches text:" + verificationText);
 			} else {
-				testLogAndContinue(false,"verifyTextOnElement: Element-> "  + " having text: " + actualText
+				testLogAndContinue(false,getCurrentMethodName() + "Locator: "  + " having text: " + actualText
 								+ ",does not match text:" + verificationText);
 			}
 		} catch (Exception e) {
@@ -941,10 +941,10 @@ public void verifyAttributeValue(WebElement webElement, int index, String attrib
 		try {
 			String actualText = (getIndexedWebElement(webElement, index)).getText();
 			if (actualText.contains(verificationText)) {
-				testLogAndContinue(true,"verifyIndexedTextExistsOnElement: Element-> " + getLocatorValue(webElement) + " having text: "
+				testLog(true,getCurrentMethodName() + "Locator: " + getLocatorValue(webElement) + " having text: "
 								+ actualText + ", contains text:" + verificationText);
 			} else {
-				testLogAndContinue(false,"verifyIndexedTextExistsOnElement: Element-> " + getLocatorValue(webElement) + " having text: "
+				testLogAndContinue(false,getCurrentMethodName() + "Locator: " + getLocatorValue(webElement) + " having text: "
 								+ actualText + ",does not contains text:" + verificationText);
 			}
 		} catch (Exception e) {
@@ -980,14 +980,17 @@ public void verifyAttributeValue(WebElement webElement, int index, String attrib
 			}
 
 			if (!flag) {
-				testLogAndContinue(false, "verifyValuesInDropDownList: "
-						+ valueToMatch[i] + " is not in list. Element-> " );
+				testLogAndContinue(false,getCurrentMethodName() + ""
+						+ valueToMatch[i] + " is not in list. Locator: " );
 			}
 		}
 
 		if (flag) {
-			testLog(true,"verifyValuesInDropDownList: All values are included in the Drop Down List. Element-> ");
+			testLog(true,getCurrentMethodName() + "All values are included in the Drop Down List. Locator: ");
 		}
 
+	}
+	public String getCurrentMethodName() {
+		return Thread.currentThread().getStackTrace()[2].getMethodName() + ": ";
 	}
 }

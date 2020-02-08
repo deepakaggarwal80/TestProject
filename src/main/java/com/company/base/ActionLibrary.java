@@ -14,7 +14,6 @@ import org.openqa.selenium.NoAlertPresentException;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.Point;
 import org.openqa.selenium.TimeoutException;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Action;
 import org.openqa.selenium.interactions.Actions;
@@ -32,8 +31,8 @@ public class ActionLibrary extends TestBase{
 	public void checkCheckBox(WebElement webElement) {
 		try {
 			if (!webElement.isSelected()) {
-				testLog(true, "Checked checkbox " + getLocatorValue(webElement));
 				webElement.click();
+				testLog(true, "Checked checkbox. Locator:  " + getLocatorValue(webElement));
 			}
 		} catch (Exception e) {
 			testLog(false,e.getStackTrace().toString());
@@ -46,9 +45,9 @@ public class ActionLibrary extends TestBase{
 	public void checkCheckBox(WebElement webElement, int index) {
 		try {
 			this.highlightElement(webElement);
-			if (!(getDriver().findElements((By) webElement).get(index)).isSelected()) {
-				testLog(true,"Checking the checkbox  with index: "+ index + ":"  + getLocatorValue(webElement));
-				(getDriver().findElements((By) webElement).get(index)).click();
+			if (!(getIndexedWebElement(webElement, index)).isSelected()) {
+				(getIndexedWebElement(webElement, index)).click();
+				testLog(true,"Checked the checkbox  with index: "+ index + ".  Locator: "  + getLocatorValue(webElement));
 			}
 
 		} catch (Exception e) {
@@ -75,7 +74,7 @@ public class ActionLibrary extends TestBase{
 		try {
 			this.highlightElement(webElement);
 			webElement.clear();
-			testLog(true, "Cleared Text box");
+			testLog(true, "Cleared Text box. Locator: "+ getLocatorValue(webElement));
 		} catch (Exception e) {
 			testLog(false,e.getStackTrace().toString());
 		}
@@ -85,8 +84,8 @@ public class ActionLibrary extends TestBase{
 	public void clearTextBoxValue(WebElement webElement, int index) {
 		try {
 			this.highlightElement(webElement);
-			(getDriver().findElements((By) webElement).get(index)).clear();
-			testLog(true, "Cleared Text box");
+			(getIndexedWebElement(webElement, index)).clear();
+			testLog(true, "Cleared Text box with index" + index + ". Locator: "+ getLocatorValue(webElement));
 		} catch (Exception e) {
 			testLog(false,e.getStackTrace().toString());
 		}
@@ -95,18 +94,18 @@ public class ActionLibrary extends TestBase{
 
 	public void click(WebElement webElement) {
 		try {
-			testLog(true,"clicking on locator : " + getLocatorValue(webElement));
+			testLog(true,"clicking on locator: " + getLocatorValue(webElement));
 			webElement.click();
 
 		} catch (Exception e) {
-//			testLog(false,e.getStackTrace().toString());
+			testLog(false,e.getStackTrace().toString());
 		}
 	}
 
 	public void click(WebElement webElement, int index) {
 		try {
-			testLog(true,"clicking on locator with index: "+ index + ":" + getLocatorValue(webElement));
-			getDriver().findElements((By) webElement).get(index).click();
+			testLog(true,"clicking on locator with index: "+ index + ". Locator: " + getLocatorValue(webElement));
+			getIndexedWebElement(webElement, index).click();
 		} catch (Exception e) {
 			testLog(false,e.getStackTrace().toString());
 		}
@@ -141,9 +140,9 @@ public class ActionLibrary extends TestBase{
 
 	public void clickIfExists(WebElement webElement) {
 		try {
-			if (this.getElementCount(webElement) > 0) {
-				testLog(true, "clicking locator : " + getLocatorValue(webElement));
-				this.click(webElement);
+			if (getElementCount(webElement) > 0) {
+				click(webElement);
+				testLog(true, "clicked locator : " + getLocatorValue(webElement));
 			}
 		} catch (Exception e) {
 			testLog(true, e.getStackTrace().toString());
@@ -155,7 +154,7 @@ public class ActionLibrary extends TestBase{
 		try {
 			(new WebDriverWait(getDriver(), TestUtil.EXPLICIT_WAIT))
 			.until(ExpectedConditions.alertIsPresent()).accept();
-			testLog(true, "Clicked on alert box -> ");
+			testLog(true, "Clicked on alert box. ");
 		} catch (Exception e) {
 			testLog(false,e.getStackTrace().toString());
 		}
@@ -188,7 +187,7 @@ public class ActionLibrary extends TestBase{
 				}
 			}
 			getDriver().switchTo().window(parent);
-			testLog(true, "closePopupWindow-> Closed all popups successfully");
+			testLog(true, "closePopupWindow: Closed all popups successfully");
 		} catch (Exception e) {
 			testLog(false,e.getStackTrace().toString());
 		}
@@ -198,7 +197,7 @@ public class ActionLibrary extends TestBase{
 	public void closeWindow() {
 		try {
 			String handle = getDriver().getWindowHandle();
-			testLog("Closed window - Title: " + getDriver().switchTo().window(handle).getTitle());
+			testLog("Closing window. Title: " + getDriver().switchTo().window(handle).getTitle());
 			getDriver().switchTo().window(handle).close();
 		} catch (Exception e) {
 			testLog(false,e.getStackTrace().toString());
@@ -281,18 +280,18 @@ public class ActionLibrary extends TestBase{
 		try {
 			parentWindowHandle = getDriver().getWindowHandle();
 			if (getDriver().getWindowHandles().size() > 1) {
-				String lastWindow = null;
-
-				String winHandle;
-				for (Iterator<?> iterator = getDriver().getWindowHandles().iterator(); iterator
-						.hasNext(); lastWindow = winHandle) {
-					winHandle = (String) iterator.next();
+				Iterator<String> iterator = getDriver().getWindowHandles().iterator();
+				while(iterator.hasNext()){
+					String childWindow=iterator.next();
+					// Compare whether the main windows is not equal to child window.
+					if(!parentWindowHandle.equals(childWindow)){
+						getDriver().switchTo().window(childWindow);
+						testLog("Changed focus to a New Window");
+					}
 				}
 
-				getDriver().switchTo().window(lastWindow);
-				testLog("Changed focus to a Pop-Up Window");
 			} else {
-				testLog("No new window present. Method call may be removed.");
+				testLog("No new window present.");
 			}
 		} catch (Exception e) {
 			testLog(false,e.getStackTrace().toString());
@@ -311,10 +310,10 @@ public class ActionLibrary extends TestBase{
 
 	public List<String> getAllOptions(WebElement webElement) {
 		List<String> options = new ArrayList<String>();
-		Iterator<?> iterator = (new Select(webElement)).getOptions().iterator();
+		Iterator<WebElement> iterator = (new Select(webElement)).getOptions().iterator();
 
 		while (iterator.hasNext()) {
-			WebElement option = (WebElement) iterator.next();
+			WebElement option = iterator.next();
 			if (option.getAttribute("value") != "") {
 				options.add(option.getText());
 			}
@@ -325,7 +324,7 @@ public class ActionLibrary extends TestBase{
 
 	public int getBrowserWindowCount() {
 		int count = getDriver().getWindowHandles().size();
-		testLog(count + ", browser windows or tabs are open");
+		testLog(count + ", browser windows/tabs are open");
 		return count;
 	}
 
@@ -348,33 +347,18 @@ public class ActionLibrary extends TestBase{
 			testLog(true, "getCurrentURL. URL: " + url);
 			return url;
 		} catch (Exception e) {
-			testLog(false, "Unable to fetch current URL");
+			testLog(false, e.getStackTrace().toString());
 			return null;
 		}
 	}
 
-	public double getDoubleFromString(WebElement webElement, int index) {
-		String stringFromPage = "";
-		double convertedDouble = -1.0D;
 
-		try {
-			stringFromPage = this.getTextOnLocator(webElement, index).replaceAll("[^0-9.]", "");
-			convertedDouble = Double.parseDouble(stringFromPage);
-			testLog(true,"getDoubleFromString: Parsed " + stringFromPage);
-			return convertedDouble;
-		} catch (Exception e) {
-			testLog(false,e.getStackTrace().toString());
-			return convertedDouble;
-		}
-	}
-
-	
 	public int getDropDownOptionsCount(WebElement webElement) {
 		int numberOfDropdownOptions = 0;
 		try {
 			Select ddBox = new Select(webElement);
 			numberOfDropdownOptions = ddBox.getOptions().size();
-			testLog(true,"Number of Options available in the Drop Down -> " + numberOfDropdownOptions);
+			testLog(true,"Number of Options available in the Drop Down :  " + numberOfDropdownOptions);
 		} catch (Exception e) {
 			testLog(false,e.getStackTrace().toString());
 		}
@@ -386,13 +370,13 @@ public class ActionLibrary extends TestBase{
 		String value = null;
 
 		try {
-			value = ((WebElement) getDriver().findElements((By) webElement).get(index)).getAttribute(AttributeName).trim();
+			value = ((WebElement) getIndexedWebElement(webElement, index)).getAttribute(AttributeName).trim();
 			testLog(true, "getElementAttribute: Retrieved the value: " + value + " from the " + AttributeName);
 			return value;
 		} catch (Exception e) {
 			testLog(false,e.getStackTrace().toString());
 		}
-			return value;
+		return value;
 	}
 
 
@@ -406,16 +390,16 @@ public class ActionLibrary extends TestBase{
 		} catch (Exception e) {
 			testLog(false,e.getStackTrace().toString());
 		}
-			return value;
+		return value;
 	}
 
 	public int getElementCount(WebElement WebElement) {
-		return this.getElements(WebElement).size();
+		return getElements(WebElement).size();
 	}
 
 	public List<WebElement> getElements(WebElement webElement) {
 		List<WebElement> elementList = getDriver().findElements((By) webElement);
-				testLog(true, "getelementCount, Element count for-> " + " = " + Integer.toString(elementList.size()));
+		testLog(true, "getelementCount, Element count:  " + " = " + Integer.toString(elementList.size()));
 		return elementList;
 	}
 
@@ -424,12 +408,12 @@ public class ActionLibrary extends TestBase{
 
 		try {
 			tagName = webElement.getTagName();
-			testLog(true,"getElementTagName: Retrieved the tag name: " + tagName + " element");
+			testLog(true,"getElementTagName: Retrieved the tag name: " + tagName + ". Locator: "+ getLocatorValue(webElement));
 			return tagName;
 		} catch (Exception e) {
 			testLog(false,e.getStackTrace().toString());
 		}
-			return tagName;
+		return tagName;
 	}
 
 	public WebElement getIndexedWebElement(WebElement webElement, int index) {
@@ -440,6 +424,21 @@ public class ActionLibrary extends TestBase{
 			return null;
 		}
 
+	}
+	
+	public double getDoubleFromString(WebElement webElement, int index) {
+		String stringFromPage = "";
+		double convertedDouble = -1.0D;
+
+		try {
+			stringFromPage = this.getTextOnLocator(webElement, index).replaceAll("[^0-9.]", "");
+			convertedDouble = Double.parseDouble(stringFromPage);
+			testLog(true,"getDoubleFromString: Parsed " + stringFromPage);
+			return convertedDouble;
+		} catch (Exception e) {
+			testLog(false,e.getStackTrace().toString());
+			return convertedDouble;
+		}
 	}
 
 	public int getIntFromString(WebElement webElement, int index) {
@@ -462,7 +461,7 @@ public class ActionLibrary extends TestBase{
 
 		try {
 			stringFromPage = this.getTextOnLocator(webElement, index).replaceAll("[^0-9]", "");
-			testLog(true,"getIntFromStringAsString: Parsed " + stringFromPage + " from ->");
+			testLog(true,"getIntFromStringAsString: Parsed: " + stringFromPage);
 		} catch (Exception e) {
 			testLog(false,e.getStackTrace().toString());
 		}
@@ -475,9 +474,8 @@ public class ActionLibrary extends TestBase{
 
 		try {
 			jsExecutor = (JavascriptExecutor) getDriver();
-			testLog("Sucessfully returned JavaScript Executor Object");
 		} catch (Exception e) {
-			testLog(false,"Failed to return JavaScript Executor Object");
+			testLog(false,e.getStackTrace().toString());
 		}
 
 		return jsExecutor;
@@ -487,16 +485,16 @@ public class ActionLibrary extends TestBase{
 		try {
 			return element.getLocation();
 		} catch (Exception e) {
-			testLogAndContinue(false,"Exception occurred in getLocationPointObject. Refer stacktrace.");
+			testLogAndContinue(false,e.getStackTrace().toString());
 			return null;
 		}
 	}
 
-	public Point getLocationPointObject(WebElement element, int index) {
+	public Point getLocationPointObject(WebElement webElement, int index) {
 		try {
-			return (getDriver().findElements((By) element).get(index)).getLocation();
+			return (getIndexedWebElement(webElement, index)).getLocation();
 		} catch (Exception e) {
-			testLogAndContinue(false,"Exception occurred in getLocationPointObject. Refer stacktrace.");
+			testLogAndContinue(false,e.getStackTrace().toString());
 			return null;
 		}
 	}
@@ -509,7 +507,7 @@ public class ActionLibrary extends TestBase{
 			Select ddBox = new Select(webElement);
 			selectedValueElement = ddBox.getFirstSelectedOption();
 			selectedValue = selectedValueElement.getText().toString();
-			testLog(true,"Selected Option from the Drop Down -> " + selectedValue);
+			testLog(true,"Selected Option from the Drop Down : " + selectedValue+ ". Locator: "+ getLocatorValue(webElement));
 		} catch (Exception e) {
 			testLog(false,e.getStackTrace().toString());
 		}
@@ -525,7 +523,7 @@ public class ActionLibrary extends TestBase{
 			wait.until(ExpectedConditions.alertIsPresent());
 			Alert alert = getDriver().switchTo().alert();
 			alertBoxText = alert.getText();
-			testLog(true, "Text from Alert box is -> " + alertBoxText);
+			testLog(true, "Text from Alert box is : " + alertBoxText);
 		} catch (Exception e) {
 			testLog(false,e.getStackTrace().toString());
 		}
@@ -538,31 +536,22 @@ public class ActionLibrary extends TestBase{
 
 		try {
 			value = webElement.getText();
-			testLogAndContinue(true,"Retrieved the text: " + value.trim());
+			testLogAndContinue(true,"Retrieved the text: " + value.trim()+ ". Locator: "+ getLocatorValue(webElement));
 			return value.trim();
-		} catch (NoSuchElementException e) {
-			testLogAndContinue(false, "Failed to Retrieve the text");
-			return null;
 		} catch (Exception e) {
 			testLogAndContinue(false, "Failed to Retrieve the text");
 			return null;
 		}
 	}
 
-	
+
 	public String getTextOnLocator(WebElement webElement, int index) {
 		String value = null;
 
 		try {
 			value = getIndexedWebElement(webElement, index).getText();
-			testLogAndContinue(true,"Retrieved the text: " + value.trim());
+			testLogAndContinue(true,"Retrieved the text: " + value.trim()+ ". Locator: "+ getLocatorValue(webElement));
 			return value.trim();
-		} catch (NoSuchElementException e) {
-			testLogAndContinue(false, "Failed to Retrieve the text");
-			return null;
-		} catch (IndexOutOfBoundsException e) {
-			testLogAndContinue(false, "Failed to Retrieve the text");
-			return null;
 		} catch (Exception e) {
 			testLogAndContinue(false, "Failed to Retrieve the text");
 			return null;
@@ -596,16 +585,16 @@ public class ActionLibrary extends TestBase{
 
 	public void highlightElement(WebElement webElement) {
 		if (!getDriver().getClass().getSimpleName().contains("Java")) {
-			((JavascriptExecutor) getDriver()).executeScript("arguments[0].style.outline=' dotted " + "yellow" + "'",
-					new Object[]{webElement});
+//			getJSExecutor().executeScript("arguments[0].style.outline=' dotted " + "yellow" + "'",webElement);
+			getJSExecutor().executeScript("arguments[0].setAttribute('style','border: solid 2px red');",webElement);
 		}
 
 	}
-	public void hover(WebElement webelement) {
+	public void hover(WebElement webElement) {
 		try {
 			Actions action = new Actions(getDriver());
-			action.moveToElement(webelement).perform();
-			testLog(true, "hover over element");
+			action.moveToElement(webElement).perform();
+			testLog(true, "hover over element. Locator: "+ getLocatorValue(webElement));
 		} catch (Exception e) {
 			testLog(false,e.getStackTrace().toString());
 		}
@@ -617,51 +606,13 @@ public class ActionLibrary extends TestBase{
 			WebElement webelement = getIndexedWebElement(webElement, index);
 			Actions action = new Actions(getDriver());
 			action.moveToElement(webelement);
-			testLog(true, "hover over element");
+			testLog(true, "hover over element. Locator: "+ getLocatorValue(webElement));
 		} catch (Exception e) {
 			testLog(false,e.getStackTrace().toString());
 		}
 
 	}
 
-	public void hoverIframe(By iframe, WebElement webElement) {
-		WebDriver driver = getDriver();
-		WebElement frameElement = null;
-
-		try {
-			driver.switchTo().defaultContent();
-			frameElement = driver.findElement(iframe);
-		} catch (Exception e) {
-			testLog(false,e.getStackTrace().toString());
-		}
-
-		try {
-			driver.switchTo().frame(frameElement);
-			Actions action = new Actions(driver);
-			action.moveToElement(webElement);
-			action.perform();
-			testLog(true, "hover over element-> " );
-		} catch (Exception e) {
-			testLog(false,e.getStackTrace().toString());
-		}
-
-	}
-
-	public void hoverIframe(WebElement iframe, WebElement webElement, int index) {
-		WebDriver driver=getDriver();
-		getDriver().switchTo().defaultContent();
-		try {
-			driver.switchTo().frame(iframe);
-			WebElement webelement = getIndexedWebElement(webElement, index);
-			Actions action = new Actions(driver);
-			action.moveToElement(webelement);
-			action.perform();
-			testLog(true, "hover over element-> " );
-		} catch (Exception e) {
-			testLog(false,e.getStackTrace().toString());
-		}
-
-	}
 
 	public boolean isAlertPresent() {
 		try {
@@ -676,7 +627,7 @@ public class ActionLibrary extends TestBase{
 
 	public boolean isChecked(WebElement webElement) {
 		if (webElement.isSelected()) {
-			testLog("Checkbox is checked" + getLocatorValue(webElement));
+			testLog("Checkbox is checked. Locator: " + getLocatorValue(webElement));
 			return true;
 		} else {
 			testLog("Checkbox is NOT checked");
@@ -700,24 +651,8 @@ public class ActionLibrary extends TestBase{
 		}
 	}
 
-	public boolean isEqual(String valueA, String valueB) {
-		double parsedA = Double.parseDouble(valueA.trim().replaceAll("[^.0-9]", ""));
-		double parsedB = Double.parseDouble(valueB.trim().replaceAll("[^.0-9]", ""));
-		return parsedA == parsedB;
-	}
 
-	public boolean isGreater(String expectedGreater, String expectedLess) {
-		double parsedLarger = Double.parseDouble(expectedGreater.trim().replaceAll("[^.0-9]", ""));
-		double parsedSmaller = Double.parseDouble(expectedLess.trim().replaceAll("[^.0-9]", ""));
-		return parsedLarger > parsedSmaller;
-	}
-
-	public boolean isGreaterOrEqual(String largeValue, String smallValue) {
-		return Double.parseDouble(largeValue.replaceAll("[^.0-9]", "")) >= Double
-				.parseDouble(smallValue.replaceAll("[^.0-9]", ""));
-	}
-
-	public boolean isPresentAndDisplayed(WebElement webElement) {
+	public boolean isDisplayed(WebElement webElement) {
 		try {
 			if (webElement.isDisplayed()) {
 				testLog("WebElement is present and displayed" + getLocatorValue(webElement));
@@ -732,7 +667,7 @@ public class ActionLibrary extends TestBase{
 		}
 	}
 
-	public boolean isPresentAndDisplayed(WebElement webElement, int index) {
+	public boolean isDisplayed(WebElement webElement, int index) {
 		try {
 			if (getIndexedWebElement(webElement, index).isDisplayed()) {
 				testLog("WebElement is present and displayed" + getLocatorValue(webElement));
@@ -741,9 +676,6 @@ public class ActionLibrary extends TestBase{
 				testLog("WebElement is not present and displayed" + getLocatorValue(webElement));
 				return false;
 			}
-		} catch (NoSuchElementException e) {
-			testLog("isPresentAndDisplayed: The element is not found. element->");
-			return false;
 		} catch (Exception e) {
 			testLog(false,e.getStackTrace().toString());
 			return false;
@@ -752,9 +684,8 @@ public class ActionLibrary extends TestBase{
 
 	public void jsClick(WebElement webElement) {
 		try {
-			WebElement elementToClick = webElement;
-			((JavascriptExecutor) getDriver()).executeScript("arguments[0].click();", new Object[]{elementToClick});
-			testLog(true, "jsClick-> ");
+			testLog(true, "JS Clicking Locator: " + getLocatorValue(webElement));
+			((JavascriptExecutor) getDriver()).executeScript("arguments[0].click();", webElement);
 		} catch (Exception e) {
 			testLog(false,e.getStackTrace().toString());
 		}
@@ -762,6 +693,7 @@ public class ActionLibrary extends TestBase{
 	}
 
 	public void openNewTab() {
+		
 		try {
 			((JavascriptExecutor) getDriver()).executeScript("window.open();", new Object[0]);
 			setParentWindowHandle(getDriver().getWindowHandle());
@@ -781,11 +713,10 @@ public class ActionLibrary extends TestBase{
 
 	public void performSlide(WebElement webElement, int xOffset, int yOffset) {
 		try {
-			WebElement slider = webElement;
 			Actions move = new Actions(getDriver());
-			Action action = move.dragAndDropBy(slider, xOffset, yOffset).build();
+			Action action = move.dragAndDropBy(webElement, xOffset, yOffset).build();
 			action.perform();
-			testLog(true, "performSlide -> ");
+			testLog(true, "perform Slide");
 		} catch (Exception e) {
 			testLog(false,e.getStackTrace().toString());
 		}
@@ -820,13 +751,13 @@ public class ActionLibrary extends TestBase{
 			if (direction.equalsIgnoreCase("down")) {
 				js = (JavascriptExecutor) getDriver();
 				js.executeScript("window.scrollBy(0,250)", new Object[]{""});
-				testLog(true, "scroll-> " + direction);
+				testLog(true, "scroll: " + direction);
 			}
 
 			if (direction.equalsIgnoreCase("up")) {
 				js = (JavascriptExecutor) getDriver();
 				js.executeScript("window.scrollBy(250, 0)", new Object[]{""});
-				testLog(true, "scroll-> " + direction);
+				testLog(true, "scroll: " + direction);
 			}
 		} catch (Exception e) {
 			testLog(false,e.getStackTrace().toString());
@@ -837,9 +768,8 @@ public class ActionLibrary extends TestBase{
 	public void scrollTillObjectIsVisible(WebElement webElement) {
 		try {
 			if (webElement.isDisplayed()) {
-				((JavascriptExecutor) getDriver()).executeScript("arguments[0].scrollIntoView(true);",
-						new Object[]{webElement});
-				testLog(true,"Scrolldown till Element appear: Element found. Element-> " + getLocatorValue(webElement));
+				((JavascriptExecutor) getDriver()).executeScript("arguments[0].scrollIntoView(true);",webElement);
+				testLog(true,"Scrolldown till Element appear: Element found. Locator: " + getLocatorValue(webElement));
 			}
 		} catch (Exception e) {
 			testLog(false,e.getStackTrace().toString());
@@ -850,8 +780,9 @@ public class ActionLibrary extends TestBase{
 	public void selectOptionFromDropdown(WebElement webElement, int index) {
 		try {
 			Select selector = new Select(webElement);
+			selector.getOptions().get(index).getText();
 			selector.selectByIndex(index);
-			testLog(true,"selected index: " + index + " from drop down");
+			testLog(true,"selected option: " + selector.getOptions().get(index).getText()+ "on index: " + index + " from drop down"+ ". Locator: "+ getLocatorValue(webElement));
 		} catch (Exception e) {
 			testLog(false,e.getStackTrace().toString());
 		}
@@ -862,7 +793,7 @@ public class ActionLibrary extends TestBase{
 
 		try {
 			(new Select(webElement)).selectByVisibleText(visibleText);
-			testLog(true, "selected text: " + visibleText+ " from drop down");
+			testLog(true, "selected text: " + visibleText+ " from drop down"+ ". Locator: "+ getLocatorValue(webElement));
 		} catch (Exception e) {
 			testLog(false,e.getStackTrace().toString());
 		}
@@ -873,7 +804,7 @@ public class ActionLibrary extends TestBase{
 
 		try {
 			(new Select(webElement)).selectByValue(value);
-			testLog(true,"selected value: " + value + " from drop down");
+			testLog(true,"selected value: " + value + " from drop down"+ ". Locator: "+ getLocatorValue(webElement));
 		} catch (Exception e) {
 			testLog(false,e.getStackTrace().toString());
 		}
@@ -882,8 +813,8 @@ public class ActionLibrary extends TestBase{
 
 	public void sendText(WebElement webElement, int index, String text) {
 		try {
-			(getDriver().findElements((By) webElement).get(index)).sendKeys(text);
-			testLog(true, "Input value: " + text);
+			(getIndexedWebElement(webElement, index)).sendKeys(text);
+			testLog(true, "Input value: " + text+ ". Locator: "+ getLocatorValue(webElement));
 		} catch (Exception e) {
 			testLog(false,e.getStackTrace().toString());
 		}
@@ -895,7 +826,7 @@ public class ActionLibrary extends TestBase{
 		try {
 			this.highlightElement(webElement);
 			webElement.sendKeys(text);
-			testLog(true, "Input value: " + text);
+			testLog(true, "Input value: " + text+ ". Locator: "+ getLocatorValue(webElement));
 		} catch (Exception e) {
 			testLog(false,e.getStackTrace().toString());
 		}
@@ -907,7 +838,7 @@ public class ActionLibrary extends TestBase{
 			getDriver().get(url);
 			testLog(true, "setCurrentURL to:" + url);
 		} catch (Exception e) {
-			testLog(false, "setCurrentURL, url =" + url);
+			testLog(false, e.getStackTrace().toString());
 		}
 
 	}
@@ -919,7 +850,7 @@ public class ActionLibrary extends TestBase{
 
 	public void switchBackToParentTab() {
 		try {
-			getDriver().close();
+//			getDriver().close();
 			getDriver().switchTo().window(parentWindowHandle);
 			testLog("Changed focus to a Parent Tab");
 		} catch (Exception e) {
@@ -955,8 +886,8 @@ public class ActionLibrary extends TestBase{
 	public void unCheckCheckBox(WebElement webElement) {
 		try {
 			if (webElement.isSelected()) {
-				testLog(true, "Unchecking checkbox " + getLocatorValue(webElement));
 				webElement.click();
+				testLog(true, "Unchecked checkbox " + getLocatorValue(webElement));
 			}
 		} catch (Exception e) {
 			testLog(false,e.getStackTrace().toString());
@@ -967,9 +898,9 @@ public class ActionLibrary extends TestBase{
 	public void unCheckCheckBox(WebElement webElement, int index) {
 		try {
 			this.highlightElement(webElement);
-			if ((getDriver().findElements((By) webElement).get(index)).isSelected()) {
-				testLog(true,"UnChecking the checkbox  with index: "+ index + ":"  + getLocatorValue(webElement));
-				(getDriver().findElements((By) webElement).get(index)).click();
+			if ((getIndexedWebElement(webElement, index)).isSelected()) {
+				(getIndexedWebElement(webElement, index)).click();
+				testLog(true,"UnChecked the checkbox  with index: "+ index + ":"  + getLocatorValue(webElement));
 			}
 
 		} catch (Exception e) {
@@ -985,33 +916,33 @@ public class ActionLibrary extends TestBase{
 			(new WebDriverWait(getDriver(), TestUtil.EXPLICIT_WAIT))
 			.until(ExpectedConditions.elementToBeClickable(webElement));
 			testLog(true,"waitForElementClickble: Waited: " + Long.toString(System.currentTimeMillis() - start)
-					+ " for element-> "  + ", Timeout = " + TestUtil.EXPLICIT_WAIT
-					+ " seconds");
+			+ ". Locator: "+ getLocatorValue(webElement)  + ", Timeout = " + TestUtil.EXPLICIT_WAIT
+			+ " seconds");
 		} catch (TimeoutException e) {
-			testLog(false,"waitForElementClickble: Exceeded timeout threshold! while waiting for element-> "
-							+  ", Timeout Threshold: "
-							+ TestUtil.EXPLICIT_WAIT );
+			testLog(false,"waitForElementClickble: Exceeded timeout threshold! while waiting for locator "+ getLocatorValue(webElement)
+					+  ", Timeout Threshold: "
+					+ TestUtil.EXPLICIT_WAIT );
 		}
 
 	}
 
-	public void waitForElementAbsent(WebElement WebElement) {
+	public void waitForElementAbsent(WebElement webElement) {
 		long startTime = System.currentTimeMillis();
 		long totalWaitTime = 0L;
 
 		try {
 			startTime = System.currentTimeMillis();
 			(new WebDriverWait(getDriver(), TestUtil.EXPLICIT_WAIT)).ignoring(NoSuchElementException.class)
-			.ignoring(TimeoutException.class).until(ExpectedConditions.invisibilityOfElementLocated((By) WebElement));
+			.ignoring(TimeoutException.class).until(ExpectedConditions.invisibilityOfElementLocated((By) webElement));
 			totalWaitTime = System.currentTimeMillis() - startTime;
 			testLog(true,
 					"waitForElementAbsent: Waited " + Long.toString(totalWaitTime) + " ms for-> "
-							 + " to be absent, Timeout = " + TestUtil.EXPLICIT_WAIT
+							+ " to be absent, Timeout = " + TestUtil.EXPLICIT_WAIT
 							+ " seconds");
 		} catch (TimeoutException e) {
 			testLog(false,
-					"waitForElementAbsent: Exceeded timeout threshold! while waiting for element-> "
-							 + " absence, Timeout Threshold: "
+					"waitForElementAbsent: Exceeded timeout threshold! while waiting for locator "+ getLocatorValue(webElement)
+							+ " absence, Timeout Threshold: "
 							+ TestUtil.EXPLICIT_WAIT);
 		} catch (Exception e) {
 			;
@@ -1019,32 +950,32 @@ public class ActionLibrary extends TestBase{
 
 	}
 
-	public void waitForElementPresent(WebElement WebElement) {
+	public void waitForElementPresent(WebElement webElement) {
 		long startTime = System.currentTimeMillis();
 		long totalWaitTime = 0L;
 
 		try {
 			startTime = System.currentTimeMillis();
 			(new WebDriverWait(getDriver(), TestUtil.EXPLICIT_WAIT)).ignoring(NoSuchElementException.class)
-			.ignoring(TimeoutException.class).until(ExpectedConditions.visibilityOfElementLocated((By) WebElement));
+			.ignoring(TimeoutException.class).until(ExpectedConditions.visibilityOfElementLocated((By) webElement));
 			totalWaitTime = System.currentTimeMillis() - startTime;
 			testLog(true,
 					"waitForElement: Waited " + Long.toString(totalWaitTime) + " ms for-> "
-					+ ", Timeout = " + TestUtil.EXPLICIT_WAIT + " seconds");
+							+ ", Timeout = " + TestUtil.EXPLICIT_WAIT + " seconds");
 		} catch (TimeoutException e) {
 			testLog(false,
-					"TimeoutException: Exceeded timeout threshold! while waiting for element-> "
-							 + ", Timeout Threshold: "
+					"TimeoutException: Exceeded timeout threshold! while waiting for locator "+ getLocatorValue(webElement)
+							+ ", Timeout Threshold: "
 							+ TestUtil.EXPLICIT_WAIT);
 		} catch (NoSuchElementException e) {
 			testLog(false,
-					"NoSuchElementException: Exceeded timeout threshold! while waiting for element-> "
-							 + ", Timeout Threshold: "
+					"NoSuchElementException: Exceeded timeout threshold! while waiting for locator "+ getLocatorValue(webElement)
+							+ ", Timeout Threshold: "
 							+ TestUtil.EXPLICIT_WAIT);
 		} catch (Exception e) {
-			testLog(false,"waitForElement: Exceeded timeout threshold! while waiting for element-> "
-							 + ", Timeout Threshold: "
-							+ TestUtil.EXPLICIT_WAIT + ". Refer stacktrace.");
+			testLog(false,"waitForElement: Exceeded timeout threshold! while waiting for locator "+ getLocatorValue(webElement)
+					+ ", Timeout Threshold: "
+					+ TestUtil.EXPLICIT_WAIT);
 		}
 
 	}

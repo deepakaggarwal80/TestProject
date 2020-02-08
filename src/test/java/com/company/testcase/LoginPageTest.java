@@ -18,7 +18,7 @@ public class LoginPageTest extends VerificationLibrary{
 		testLog("Deepak Aggarwal");
 		loginPage.validateHomePageTitle();
 		verifyPageTitle("Google");
-		verifyElementPresentOnPage(loginPage.submit);
+		verifyElementIsDisplayed(loginPage.submit);
 	}
 
 	@Test(description = "Login Page Test")
@@ -30,6 +30,7 @@ public class LoginPageTest extends VerificationLibrary{
 		//		homePage=loginPage.login();
 		loginPage.login();
 		signInPage.enterUserName();
+		openNewTab();
 		
 	}
 

@@ -4,10 +4,12 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.Random;
 
 import javax.imageio.ImageIO;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -71,9 +73,56 @@ public class TestUtil extends ActionLibrary{
 		}
 		return path;
 	}
+	
+	public String generateUniqueAlphaString(int length) {
+		String uniqueString = RandomStringUtils.randomAlphabetic(length);
+		return uniqueString;
+	}
 
-//	public void switchToFrame() {
-//		getDriver().switchTo().frame("abc");
-//	}
+	public String generateRandomNumber(int length) {
+		return RandomStringUtils.randomNumeric(length);
+	}
+	
+	public int getRandomNumberAsInt(int length) {
+		return Integer.valueOf(RandomStringUtils.randomNumeric(length));
+	}
+
+	
+	public String generateRandomNumber(int min, int max) {
+		Random rand = new Random();
+		int randomNum = rand.nextInt(max - min + 1) + min;
+		return String.valueOf(randomNum);
+	}
+	
+	public boolean checkIfFileExists(String fileName) {
+		boolean found = false;
+
+		try {
+			File file = new File(fileName);
+			if (file.exists() && file.isFile()) {
+				found = true;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return found;
+	}
+
+	public boolean checkIfFolderExists(String folderName) {
+		boolean found = false;
+
+		try {
+			File file = new File(folderName);
+			if (file.exists() && file.isDirectory()) {
+				found = true;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return found;
+	}
+
 
 }
